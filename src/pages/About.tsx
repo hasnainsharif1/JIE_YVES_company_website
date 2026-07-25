@@ -4,9 +4,7 @@ import SectionHeading from "../components/SectionHeading";
 import PageHero from "../components/PageHero";
 import Reveal from "../components/Reveal";
 import Button from "../components/Button";
-import PersonPhoto from "../components/PersonPhoto";
 import { site } from "../data/site";
-import { chairman, director, type Leader } from "../data/leadership";
 
 const visionPoints = [
   "Deliver high-quality project management and product supplies cost-effectively through a skilled, experienced workforce",
@@ -39,21 +37,6 @@ const values = [
   },
 ];
 
-function LeaderCard({ leader }: { leader: Leader }) {
-  return (
-    <div className="bg-white border border-mist rounded p-8">
-      <div className="flex items-center gap-4 mb-6">
-        <PersonPhoto photo={leader.photo} name={leader.name} size={80} />
-        <div>
-          <h3 className="text-ink">{leader.name}</h3>
-          <p className="text-red uppercase text-sm font-semibold tracking-[0.08em]">{leader.role}</p>
-        </div>
-      </div>
-      <p className="text-steel leading-relaxed">{leader.message}</p>
-    </div>
-  );
-}
-
 export default function About() {
   return (
     <>
@@ -61,9 +44,10 @@ export default function About() {
         eyebrow="About Us"
         title="Who We Are"
         subtitle="A significant player in Qatar's engineering and contracting sector."
+        image="/images/about_page_hero_section.png"
       />
 
-      <Section bg="white">
+      <Section bg="white" pattern>
         <Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <SectionHeading eyebrow="Our Story" title="Built On Fundamentals, Driven By Quality" align="left" />
@@ -87,20 +71,12 @@ export default function About() {
         </Reveal>
       </Section>
 
-      <Section bg="cloud">
-        <Reveal>
-          <SectionHeading eyebrow="Leadership" title="A Message From Our Leadership" align="center" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <LeaderCard leader={chairman} />
-            <LeaderCard leader={director} />
-          </div>
-        </Reveal>
-      </Section>
-
       <Section bg="white">
         <Reveal>
           <SectionHeading eyebrow="Purpose" title="Vision & Mission" align="left" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <Reveal delay={0}>
             <div className="bg-cloud border border-mist border-l-4 border-l-red rounded p-8">
               <h3 className="text-ink mb-5">Our Vision</h3>
               <ul className="flex flex-col gap-3">
@@ -112,6 +88,8 @@ export default function About() {
                 ))}
               </ul>
             </div>
+          </Reveal>
+          <Reveal delay={150}>
             <div className="bg-white border border-mist border-l-4 border-l-red rounded p-8">
               <h3 className="text-ink mb-5">Our Mission</h3>
               <ul className="flex flex-col gap-3">
@@ -123,25 +101,27 @@ export default function About() {
                 ))}
               </ul>
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </Section>
 
-      <Section bg="white">
+      <Section bg="white" pattern patternSide="left">
         <Reveal>
           <SectionHeading eyebrow="What Drives Us" title="Our Core Values" align="center" />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {values.map(({ icon: Icon, title, text }) => (
-              <div key={title} className="bg-cloud border border-mist rounded p-8 text-center">
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {values.map(({ icon: Icon, title, text }, i) => (
+            <Reveal key={title} delay={i * 120}>
+              <div className="bg-cloud border border-mist rounded p-8 text-center h-full">
                 <div className="w-14 h-14 rounded-full bg-red-tint flex items-center justify-center mx-auto mb-5">
                   <Icon className="text-red" size={26} strokeWidth={2} />
                 </div>
                 <h3 className="text-ink mb-3">{title}</h3>
                 <p className="text-steel text-sm leading-relaxed">{text}</p>
               </div>
-            ))}
-          </div>
-        </Reveal>
+            </Reveal>
+          ))}
+        </div>
       </Section>
 
       <Section bg="graphite">

@@ -3,9 +3,11 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 interface RevealProps {
   children: ReactNode;
   className?: string;
+  delay?: number;
+  duration?: number;
 }
 
-export default function Reveal({ children, className = "" }: RevealProps) {
+export default function Reveal({ children, className = "", delay = 0, duration = 700 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -37,7 +39,8 @@ export default function Reveal({ children, className = "" }: RevealProps) {
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ease-out ${isVisible ? "opacity-100" : "opacity-0"} ${transformClasses} ${className}`}
+      className={`transition-all ease-out ${isVisible ? "opacity-100" : "opacity-0"} ${transformClasses} ${className}`}
+      style={{ transitionDuration: `${duration}ms`, ...(delay ? { transitionDelay: `${delay}ms` } : {}) }}
     >
       {children}
     </div>

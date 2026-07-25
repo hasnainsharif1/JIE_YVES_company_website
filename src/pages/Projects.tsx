@@ -29,6 +29,7 @@ export default function Projects() {
         eyebrow="Our Projects"
         title="Work That Speaks For Itself"
         subtitle="A selection of projects delivered across Qatar."
+        image="/images/projects_page_hero_section.png"
       />
 
       <Section bg="white">
@@ -55,29 +56,30 @@ export default function Projects() {
             })}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
-              <ProjectCard key={project.title} project={project} />
-            ))}
-          </div>
         </Reveal>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProjects.map((project, i) => (
+            <Reveal key={project.title} delay={(i % 6) * 100}>
+              <ProjectCard project={project} />
+            </Reveal>
+          ))}
+        </div>
       </Section>
 
       <Section bg="cloud">
-        <Reveal>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {projectStats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <CountUpNumber
-                  value={stat.value}
-                  suffix={stat.suffix}
-                  className="font-display text-4xl md:text-5xl font-semibold text-graphite"
-                />
-                <div className="text-steel uppercase text-xs font-medium tracking-wide mt-2">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </Reveal>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {projectStats.map((stat, i) => (
+            <Reveal key={stat.label} delay={i * 100} className="text-center">
+              <CountUpNumber
+                value={stat.value}
+                suffix={stat.suffix}
+                className="font-display text-4xl md:text-5xl font-semibold text-graphite"
+              />
+              <div className="text-steel uppercase text-xs font-medium tracking-wide mt-2">{stat.label}</div>
+            </Reveal>
+          ))}
+        </div>
       </Section>
 
       <Section bg="graphite">

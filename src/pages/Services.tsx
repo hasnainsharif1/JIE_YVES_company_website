@@ -70,9 +70,10 @@ export default function Services() {
         eyebrow="Services"
         title="What We Do"
         subtitle="Contracting, trading and maintenance delivered to the highest standards of quality."
+        image="/images/services_page_hero_section.png"
       />
 
-      <Section bg="white">
+      <Section bg="white" pattern>
         <Reveal>
           <SectionHeading eyebrow="Our Approach" title="Committed To Quality And Craftsmanship" align="center" />
           <p className="text-steel text-center max-w-2xl mx-auto leading-relaxed">
@@ -129,38 +130,37 @@ export default function Services() {
       <Section bg="cloud">
         <Reveal>
           <SectionHeading eyebrow="Also Offering" title="Additional Capabilities" align="center" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {categories.map((category) => {
-              const Icon = categoryIcons[category.title];
-              return (
-                <div
-                  key={category.title}
-                  className="group relative bg-white border border-mist rounded p-6 transition-all hover:shadow-lg hover:border-graphite hover:-translate-y-1"
-                >
+        </Reveal>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {categories.map((category, i) => {
+            const Icon = categoryIcons[category.title];
+            return (
+              <Reveal key={category.title} delay={i * 90}>
+                <div className="group relative h-full bg-white border border-mist rounded p-6 transition-all hover:shadow-lg hover:border-2 hover:border-red hover:-translate-y-1">
                   <CornerBrackets hoverOnly size={20} />
                   <Icon className="text-red mb-4" size={24} strokeWidth={2} />
                   <h3 className="text-ink text-lg mb-2">{category.title}</h3>
                   <p className="text-steel text-sm leading-relaxed">{category.blurb}</p>
                 </div>
-              );
-            })}
-          </div>
-        </Reveal>
+              </Reveal>
+            );
+          })}
+        </div>
       </Section>
 
-      <Section bg="white">
+      <Section bg="white" pattern patternSide="left">
         <Reveal>
           <SectionHeading eyebrow="Our Process" title="From Enquiry To Handover" align="center" />
-          <div className="grid grid-cols-1 md:grid-cols-4 md:divide-x md:divide-mist">
-            {processSteps.map((step) => (
-              <div key={step.number} className="px-6 first:pl-0 last:pr-0 text-center md:text-left mb-8 md:mb-0">
-                <div className="font-display text-4xl font-semibold text-red mb-3">{step.number}</div>
-                <h3 className="text-ink text-lg mb-2">{step.title}</h3>
-                <p className="text-steel text-sm leading-relaxed">{step.text}</p>
-              </div>
-            ))}
-          </div>
         </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-4 md:divide-x md:divide-mist">
+          {processSteps.map((step, i) => (
+            <Reveal key={step.number} delay={i * 90} className="px-6 first:pl-0 last:pr-0 text-center md:text-left mb-8 md:mb-0">
+              <div className="font-display text-4xl font-semibold text-red mb-3">{step.number}</div>
+              <h3 className="text-ink text-lg mb-2">{step.title}</h3>
+              <p className="text-steel text-sm leading-relaxed">{step.text}</p>
+            </Reveal>
+          ))}
+        </div>
       </Section>
 
       <Section bg="graphite">

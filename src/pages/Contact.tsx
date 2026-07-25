@@ -81,45 +81,60 @@ export default function Contact() {
 
   return (
     <>
-      <PageHero eyebrow="Contact" title="Let's Talk" subtitle="Reach out and our team will get back to you." />
+      <PageHero
+        eyebrow="Contact"
+        title="Let's Talk"
+        subtitle="Reach out and our team will get back to you."
+        image="/images/contact_page_hero_section.png"
+      />
 
-      <Section bg="white">
+      <Section bg="white" pattern>
         <Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <div>
               <SectionHeading eyebrow="Get In Touch" title="Contact Information" align="left" />
               <div className="flex flex-col gap-6">
-                <DetailRow icon={MapPin} label="Address">
-                  {site.contact.address}
-                </DetailRow>
-                <DetailRow icon={Phone} label="Phone">
-                  <div className="flex flex-col gap-1">
-                    {site.contact.phones.map((phone) => (
-                      <a key={phone} href={telHref(phone)} className="hover:text-red transition-colors">
-                        {phone}
-                      </a>
-                    ))}
-                  </div>
-                </DetailRow>
-                <DetailRow icon={Mail} label="Email">
-                  <a href={`mailto:${site.contact.email}`} className="hover:text-red transition-colors">
-                    {site.contact.email}
-                  </a>
-                </DetailRow>
-                <DetailRow icon={MessageCircle} label="WhatsApp">
-                  <a
-                    href={site.contact.whatsapp}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-red transition-colors"
-                  >
-                    Chat with us
-                  </a>
-                </DetailRow>
-                {site.contact.hours && (
-                  <DetailRow icon={Clock} label="Working Hours">
-                    {site.contact.hours}
+                <Reveal delay={0}>
+                  <DetailRow icon={MapPin} label="Address">
+                    {site.contact.address}
                   </DetailRow>
+                </Reveal>
+                <Reveal delay={90}>
+                  <DetailRow icon={Phone} label="Phone">
+                    <div className="flex flex-col gap-1">
+                      {site.contact.phones.map((phone) => (
+                        <a key={phone} href={telHref(phone)} className="hover:text-red transition-colors">
+                          {phone}
+                        </a>
+                      ))}
+                    </div>
+                  </DetailRow>
+                </Reveal>
+                <Reveal delay={180}>
+                  <DetailRow icon={Mail} label="Email">
+                    <a href={`mailto:${site.contact.email}`} className="hover:text-red transition-colors">
+                      {site.contact.email}
+                    </a>
+                  </DetailRow>
+                </Reveal>
+                <Reveal delay={270}>
+                  <DetailRow icon={MessageCircle} label="WhatsApp">
+                    <a
+                      href={site.contact.whatsapp}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-red transition-colors"
+                    >
+                      Chat with us
+                    </a>
+                  </DetailRow>
+                </Reveal>
+                {site.contact.hours && (
+                  <Reveal delay={360}>
+                    <DetailRow icon={Clock} label="Working Hours">
+                      {site.contact.hours}
+                    </DetailRow>
+                  </Reveal>
                 )}
               </div>
 

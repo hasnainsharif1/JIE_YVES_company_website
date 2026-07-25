@@ -20,7 +20,7 @@ export default function LogoTile({ name, logo, className = "" }: LogoTileProps) 
           src={logo}
           alt={name}
           onError={() => setHasError(true)}
-          className="max-h-14 max-w-full grayscale hover:grayscale-0 transition-all duration-300"
+          className="max-h-14 max-w-full"
         />
       )}
     </div>

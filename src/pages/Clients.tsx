@@ -61,28 +61,30 @@ export default function Clients() {
         eyebrow="Our Clients"
         title="Trusted Across Qatar"
         subtitle="The operators and contractors who rely on Jie Yves to deliver."
+        image="/images/clients_page_hero_section.png"
       />
 
-      <Section bg="white">
+      <Section bg="white" pattern>
         <Reveal>
           <SectionHeading eyebrow="In Good Company" title="Clients We've Worked With" align="center" />
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-            {clients.map((client) => (
-              <LogoTile key={client.name} name={client.name} logo={client.logo} />
-            ))}
-          </div>
         </Reveal>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+          {clients.map((client, i) => (
+            <Reveal key={client.name} delay={i * 60}>
+              <LogoTile name={client.name} logo={client.logo} />
+            </Reveal>
+          ))}
+        </div>
       </Section>
 
       <Section bg="cloud">
         <Reveal>
           <SectionHeading eyebrow="Selected Work" title="How We've Helped" align="center" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {clients.map((client) => (
-              <div
-                key={client.name}
-                className="group relative bg-white border border-mist rounded overflow-hidden transition-all hover:shadow-lg hover:border-graphite hover:-translate-y-1"
-              >
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {clients.map((client, i) => (
+            <Reveal key={client.name} delay={i * 120}>
+              <div className="group relative h-full bg-white border border-mist rounded overflow-hidden transition-all hover:shadow-lg hover:border-2 hover:border-red hover:-translate-y-1">
                 <CornerBrackets hoverOnly />
                 <span className="absolute top-0 left-0 right-0 h-[3px] bg-red" />
                 <div className="p-8">
@@ -110,23 +112,21 @@ export default function Clients() {
                   <p className="text-steel text-sm leading-relaxed">{client.scope}</p>
                 </div>
               </div>
-            ))}
-          </div>
-        </Reveal>
+            </Reveal>
+          ))}
+        </div>
       </Section>
 
-      <Section bg="white">
-        <Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {trustPoints.map(({ icon: Icon, label, text }) => (
-              <div key={label} className="flex flex-col items-start gap-3">
-                <Icon className="text-red" size={28} strokeWidth={2} />
-                <span className="font-semibold text-ink">{label}</span>
-                <p className="text-steel text-sm leading-relaxed">{text}</p>
-              </div>
-            ))}
-          </div>
-        </Reveal>
+      <Section bg="white" pattern patternSide="left">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {trustPoints.map(({ icon: Icon, label, text }, i) => (
+            <Reveal key={label} delay={i * 100} className="flex flex-col items-start gap-3">
+              <Icon className="text-red" size={28} strokeWidth={2} />
+              <span className="font-semibold text-ink">{label}</span>
+              <p className="text-steel text-sm leading-relaxed">{text}</p>
+            </Reveal>
+          ))}
+        </div>
       </Section>
 
       <Section bg="graphite">

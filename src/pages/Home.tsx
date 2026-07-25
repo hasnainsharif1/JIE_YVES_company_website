@@ -5,6 +5,7 @@ import Section from "../components/Section";
 import SectionHeading from "../components/SectionHeading";
 import Reveal from "../components/Reveal";
 import Button from "../components/Button";
+import HeroSlider from "../components/HeroSlider";
 import { Bracket, CornerBrackets } from "../components/Bracket";
 import LogoTile from "../components/LogoTile";
 import ProjectCard from "../components/ProjectCard";
@@ -16,7 +17,22 @@ import { stats } from "../data/stats";
 import { categories } from "../data/categories";
 import { clients } from "../data/clients";
 import { projects } from "../data/projects";
-import { chairman } from "../data/leadership";
+import { chairman, director, type Leader } from "../data/leadership";
+
+function LeaderCard({ leader }: { leader: Leader }) {
+  return (
+    <div className="bg-white border border-mist rounded p-8 h-full">
+      <div className="flex items-center gap-4 mb-6">
+        <PersonPhoto photo={leader.photo} name={leader.name} size={96} />
+        <div>
+          <h3 className="text-ink">{leader.name}</h3>
+          <p className="text-red uppercase text-sm font-semibold tracking-[0.08em]">{leader.role}</p>
+        </div>
+      </div>
+      <p className="text-steel leading-relaxed">{leader.message}</p>
+    </div>
+  );
+}
 
 const whyUs = [
   "Quality Control System",
@@ -30,26 +46,26 @@ const whyUs = [
 export default function Home() {
   return (
     <>
-      <section
-        className="relative flex items-center min-h-[85vh]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to bottom right, rgba(47,49,51,0.6), rgba(47,49,51,0.45)), url(/images/hero.jpg)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundColor: "#2F3133",
-        }}
+      <HeroSlider
+        images={["/images/hero_section_part1.png", "/images/hero_section_part2.png", "/images/hero_section_part3.png"]}
+        interval={4000}
       >
         <Container className="py-20">
-          <Reveal>
+          <Reveal duration={450}>
             <div className="flex items-center gap-2 mb-4">
               <Bracket light />
               <p className="text-red uppercase text-sm font-semibold tracking-[0.08em]">
                 Contracting &bull; Trading &bull; Maintenance
               </p>
             </div>
+          </Reveal>
+          <Reveal delay={90} duration={450}>
             <h1 className="text-white max-w-3xl mb-6">Building Qatar's industrial backbone</h1>
+          </Reveal>
+          <Reveal delay={180} duration={450}>
             <p className="text-mist max-w-xl mb-10 text-lg">{site.tagline}</p>
+          </Reveal>
+          <Reveal delay={270} duration={450}>
             <div className="flex flex-wrap gap-4">
               <Button href="/services" variant="primary">
                 Our Services
@@ -60,26 +76,24 @@ export default function Home() {
             </div>
           </Reveal>
         </Container>
-      </section>
+      </HeroSlider>
 
       <Section bg="white" className="border-y border-mist">
-        <Reveal>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <CountUpNumber
-                  value={stat.value}
-                  suffix={stat.suffix}
-                  className="font-display text-4xl md:text-5xl font-semibold text-graphite"
-                />
-                <div className="text-steel uppercase text-xs font-medium tracking-wide mt-2">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </Reveal>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {stats.map((stat, i) => (
+            <Reveal key={stat.label} delay={i * 100} className="text-center">
+              <CountUpNumber
+                value={stat.value}
+                suffix={stat.suffix}
+                className="font-display text-4xl md:text-5xl font-semibold text-graphite"
+              />
+              <div className="text-steel uppercase text-xs font-medium tracking-wide mt-2">{stat.label}</div>
+            </Reveal>
+          ))}
+        </div>
       </Section>
 
-      <Section bg="white">
+      <Section bg="white" pattern>
         <Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <SectionHeading
@@ -104,15 +118,16 @@ export default function Home() {
         </Reveal>
       </Section>
 
-      <Section bg="cloud">
+      <Section bg="cloud" bgImage="/images/service_section.png">
         <Reveal>
           <SectionHeading eyebrow="What We Do" title="Our Services" align="center" />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {services.map((service) => (
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {services.map((service, i) => (
+            <Reveal key={service.title} delay={i * 120}>
               <Link
-                key={service.title}
                 to="/services"
-                className="group relative block bg-white border border-mist rounded p-8 pt-10 transition-all hover:shadow-lg hover:border-graphite hover:-translate-y-1"
+                className="group relative block h-full bg-white border border-mist rounded p-8 pt-10 transition-all hover:shadow-lg hover:border-2 hover:border-red hover:-translate-y-1"
               >
                 <CornerBrackets hoverOnly />
                 <span className="absolute top-0 left-0 right-0 h-[3px] bg-red rounded-t" />
@@ -127,8 +142,10 @@ export default function Home() {
                   ))}
                 </ul>
               </Link>
-            ))}
-          </div>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal delay={services.length * 120}>
           <div className="flex flex-wrap justify-center gap-3 mt-10">
             {categories.map((category) => (
               <span
@@ -142,28 +159,32 @@ export default function Home() {
         </Reveal>
       </Section>
 
-      <Section bg="white">
+      <Section bg="white" pattern patternSide="left">
         <Reveal>
           <SectionHeading eyebrow="Why Choose Us" title={`Why ${site.shortName}`} align="center" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {whyUs.map((item) => (
-              <div key={item} className="flex items-center gap-3">
-                <Check className="text-red flex-shrink-0" size={22} strokeWidth={2.5} />
-                <span className="font-semibold text-ink">{item}</span>
-              </div>
-            ))}
-          </div>
         </Reveal>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {whyUs.map((item, i) => (
+            <Reveal key={item} delay={i * 80} className="flex items-center gap-3">
+              <Check className="text-red flex-shrink-0" size={22} strokeWidth={2.5} />
+              <span className="font-semibold text-ink">{item}</span>
+            </Reveal>
+          ))}
+        </div>
       </Section>
 
       <Section bg="cloud">
         <Reveal>
           <SectionHeading eyebrow="Our Clients" title="Trusted Across Qatar" align="center" />
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 mb-10">
-            {clients.map((client) => (
-              <LogoTile key={client.name} name={client.name} logo={client.logo} />
-            ))}
-          </div>
+        </Reveal>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 mb-10">
+          {clients.slice(0, 6).map((client, i) => (
+            <Reveal key={client.name} delay={i * 60}>
+              <LogoTile name={client.name} logo={client.logo} />
+            </Reveal>
+          ))}
+        </div>
+        <Reveal delay={6 * 60}>
           <div className="text-center">
             <Button href="/clients" variant="secondary">
               See All Clients
@@ -172,14 +193,18 @@ export default function Home() {
         </Reveal>
       </Section>
 
-      <Section bg="white">
+      <Section bg="white" pattern>
         <Reveal>
           <SectionHeading eyebrow="Selected Work" title="Featured Projects" align="center" />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {projects.slice(0, 3).map((project) => (
-              <ProjectCard key={project.title} project={project} />
-            ))}
-          </div>
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {projects.slice(0, 3).map((project, i) => (
+            <Reveal key={project.title} delay={i * 120}>
+              <ProjectCard project={project} />
+            </Reveal>
+          ))}
+        </div>
+        <Reveal delay={3 * 120}>
           <div className="text-center mt-10">
             <Button href="/projects" variant="secondary">
               See All Projects
@@ -190,22 +215,16 @@ export default function Home() {
 
       <Section bg="cloud">
         <Reveal>
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="flex justify-center mb-6">
-              <Bracket />
-            </div>
-            <p className="font-display text-2xl md:text-3xl text-ink leading-snug mb-8">
-              &ldquo;The pillars of our success remain our skilled, experienced and dedicated workforce.&rdquo;
-            </p>
-            <div className="flex items-center justify-center gap-4">
-              <PersonPhoto photo={chairman.photo} name={chairman.name} size={56} />
-              <div className="text-left">
-                <p className="text-ink font-semibold">{chairman.name}</p>
-                <p className="text-steel text-sm">{chairman.role}</p>
-              </div>
-            </div>
-          </div>
+          <SectionHeading eyebrow="Leadership" title="A Message From Our Leadership" align="center" />
         </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <Reveal delay={0}>
+            <LeaderCard leader={chairman} />
+          </Reveal>
+          <Reveal delay={150}>
+            <LeaderCard leader={director} />
+          </Reveal>
+        </div>
       </Section>
 
       <Section bg="graphite">
