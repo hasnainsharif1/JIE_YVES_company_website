@@ -12,7 +12,7 @@ import ProjectCard from "../components/ProjectCard";
 import PersonPhoto from "../components/PersonPhoto";
 import CountUpNumber from "../components/CountUpNumber";
 import { site } from "../data/site";
-import { services } from "../data/services";
+import { coreServices } from "../data/services";
 import { stats } from "../data/stats";
 import { categories } from "../data/categories";
 import { clients } from "../data/clients";
@@ -123,7 +123,7 @@ export default function Home() {
           <SectionHeading eyebrow="What We Do" title="Our Services" align="center" />
         </Reveal>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {services.map((service, i) => (
+          {coreServices.map((service, i) => (
             <Reveal key={service.title} delay={i * 120}>
               <Link
                 to="/services"
@@ -132,20 +132,22 @@ export default function Home() {
                 <CornerBrackets hoverOnly />
                 <span className="absolute top-0 left-0 right-0 h-[3px] bg-red rounded-t" />
                 <h3 className="text-ink mb-3">{service.title}</h3>
-                <p className="text-steel text-sm leading-relaxed mb-5">{service.blurb}</p>
-                <ul className="flex flex-col gap-2">
-                  {service.points.map((point) => (
-                    <li key={point} className="flex items-center gap-2 text-sm text-graphite">
-                      <span className="w-1.5 h-1.5 rounded-full bg-red flex-shrink-0" />
-                      {point}
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-steel text-sm leading-relaxed mb-5">{service.desc}</p>
+                {service.disciplines.length > 0 && (
+                  <ul className="flex flex-col gap-2">
+                    {service.disciplines.map((discipline) => (
+                      <li key={discipline} className="flex items-center gap-2 text-sm text-graphite">
+                        <span className="w-1.5 h-1.5 rounded-full bg-red flex-shrink-0" />
+                        {discipline}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </Link>
             </Reveal>
           ))}
         </div>
-        <Reveal delay={services.length * 120}>
+        <Reveal delay={coreServices.length * 120}>
           <div className="flex flex-wrap justify-center gap-3 mt-10">
             {categories.map((category) => (
               <span

@@ -1,34 +1,187 @@
-export interface Service {
+export interface ProductCategory {
   title: string;
-  blurb: string;
-  points: string[];
-  icon: string;
+  items: string[];
+}
+
+export const productCategories: ProductCategory[] = [
+  {
+    title: "Hardware Material",
+    items: [
+      "Bolts and Nuts",
+      "Anchor Bolts",
+      "Rawal Bolts",
+      "Through Bolts",
+      "Rawal Plugs",
+      "Self-Tapping Screws",
+      "Self-Drilling Screws",
+      "Rivet Nuts",
+      "Wood Screws",
+      "Hinges",
+      "Hasp and Staples",
+      "Packing Strip",
+      "Masking Tapes",
+      "Cotton Rags",
+      "PVC Tarpaulin",
+      "Duct Tapes",
+      "Aluminum Tapes",
+      "Cleaning Brushes",
+      "Polythene Sheet",
+    ],
+  },
+  {
+    title: "Electrical Supplies",
+    items: [
+      "Electrical Cables",
+      "Cable Lugs",
+      "Cable Ties",
+      "Cable Markers",
+      "Circuit Breakers",
+      "Electrical Conduits and Fittings",
+      "Explosion Proof Enclosures",
+      "Electrical Boxes",
+      "Lights",
+      "Light Fittings",
+      "Connector Strips",
+      "Switches",
+    ],
+  },
+  {
+    title: "Safety Items",
+    items: [
+      "Coveralls",
+      "Safety Helmets",
+      "Safety Goggles",
+      "Safety Jackets",
+      "Safety Shoes",
+      "Gum Shoes",
+      "Safety Harness",
+      "Safety Cones",
+      "Dotted Gloves",
+      "Welding Gloves",
+      "Rubber Gloves",
+      "Leather Gloves",
+      "Chemical Gloves",
+      "Dust Masks",
+      "Gas Masks",
+      "Gas Mask Filters",
+      "Face Shield",
+      "Warning Tapes",
+    ],
+  },
+  {
+    title: "Welding & Cutting Consumables",
+    items: [
+      "Welding Electrodes",
+      "Welding Cable",
+      "Earth Clamps",
+      "Cutting Torch and Accessories",
+      "Welding Helmet",
+      "Long Back Cap",
+      "Short Back Cap",
+      "Cutting Discs",
+      "Grinding Discs",
+    ],
+  },
+  {
+    title: "Pipes & Fittings",
+    items: ["MS/SS Pipes", "MS/SS Elbows", "MS/SS Unions", "MS/SS Plugs", "MS/SS Bends", "MS/SS Tee"],
+  },
+  {
+    title: "Lifting Tools",
+    items: [
+      "Clamp Meters",
+      "Multimeters",
+      "Earth Tester",
+      "Megger",
+      "Thermometers",
+      "IR Thermometers",
+      "Humidity Meters",
+      "Laser Distance Meter",
+      "Weather Meter",
+      "Insulation Tester",
+      "Thermal Imager",
+      "Gas Detectors",
+      "Vibration Meters",
+    ],
+  },
+  {
+    title: "Hand Tools",
+    items: [
+      "Angle Grinders",
+      "Pencil Grinders",
+      "Bench Grinders",
+      "Rotary Drill Machines",
+      "Impact Drill Machines",
+      "Magnetic Drill Machines",
+      "Circular Saws",
+      "Jig Saw",
+      "Air Blowers",
+      "Heat Blowers",
+      "Demolition Hammer",
+      "Tile Cutter",
+      "Vacuum Cleaners",
+      "Karcher Machines",
+      "Power Generators",
+    ],
+  },
+  {
+    title: "Paints",
+    items: [
+      "Enamel Paints",
+      "Emulsion Paints",
+      "Red Oxide Primer",
+      "Aluminum Paint",
+      "Primer",
+      "Putty",
+      "Steel Putty",
+      "Thinners",
+      "Texture Paints",
+      "Paint Brushes",
+      "Paint Rollers",
+      "Emery Papers",
+      "Sand Papers",
+      "Paint Removers",
+      "Wood Glue",
+      "Bison Products",
+    ],
+  },
+];
+
+export interface CoreService {
+  title: string;
+  desc: string;
+  disciplines: string[];
   image: string;
 }
 
-export const services: Service[] = [
+export const coreServices: CoreService[] = [
   {
     title: "Contracting Services",
-    blurb:
-      "We take up contracting for projects and support clients with documentation and legal requirements, following strict guidelines across all construction activities.",
-    points: ["Civil works", "Project documentation", "Site preparation", "Compliance & permits", "Manpower supply"],
-    icon: "HardHat",
-    image: "/images/service-contracting.jpg",
-  },
-  {
-    title: "Trading Services",
-    blurb:
-      "We execute at pace using advanced tools and technology, and forecast your material and labour costs with accurate construction cost estimates.",
-    points: ["Material supply", "Cost forecasting", "Equipment rental", "Logistics", "Transportation"],
-    icon: "Package",
-    image: "/images/service-trading.jpg",
+    desc: "We add additional depth to our service by taking up contracting for the project. We help clients with documentation and other legal requirements for the construction. Our expert team follows strict guidelines for all construction activities.",
+    image: "/images/services/contracting.png",
+    disciplines: [
+      "Civil",
+      "Electrical",
+      "Instrumentation",
+      "Mechanical",
+      "HVAC",
+      "Fire Fighting",
+      "Cleaning Services",
+      "CCTV",
+      "Paints Work",
+      "Industrial Maintenance",
+    ],
   },
   {
     title: "Maintenance Services",
-    blurb:
-      "Quality is our strategic principle: we deliver efficiency and reliability across every service, focused on our clients' needs.",
-    points: ["Plant maintenance", "Instrumentation", "Scaffolding", "Steel fabrication"],
-    icon: "Wrench",
-    image: "/images/service-maintenance.jpg",
+    desc: "Quality of work is a basic strategic principle adopted by Jie Yves, with a focus on satisfying clients' needs through delivering an excellent standard of effectiveness and efficiency in all the services it provides.",
+    image: "/images/services/maintenance.png",
+    disciplines: ["Electrical", "HVAC"],
+  },
+  {
+    title: "Trading Services",
+    desc: "We are committed to administering projects at a rapid rate of execution with the aid of advanced tools and technology. Following current industry trends, Jie Yves can forecast your material and labour costs in our construction cost estimates.",
+    image: "/images/services/trading.png",
+    disciplines: [],
   },
 ];

@@ -1,64 +1,44 @@
 import { useState } from "react";
-import {
-  Boxes,
-  Check,
-  ClipboardList,
-  Hammer,
-  HardHat,
-  Package,
-  Settings,
-  Wrench,
-  type LucideIcon,
-} from "lucide-react";
+import { Boxes, Flame, Gauge, PaintBucket, Settings, ShieldCheck, Wrench, Zap, type LucideIcon } from "lucide-react";
 import Section from "../components/Section";
 import SectionHeading from "../components/SectionHeading";
 import PageHero from "../components/PageHero";
 import Reveal from "../components/Reveal";
 import Button from "../components/Button";
-import { CornerBrackets } from "../components/Bracket";
-import { services } from "../data/services";
-import { categories } from "../data/categories";
-
-const serviceIcons: Record<string, LucideIcon> = { HardHat, Package, Wrench };
+import { site } from "../data/site";
+import { coreServices, productCategories } from "../data/services";
+import { telHref } from "../utils/phone";
 
 const categoryIcons: Record<string, LucideIcon> = {
-  "Project Management": ClipboardList,
-  "Hardware & Consumables": Boxes,
-  "Maintenance Work": Settings,
-  Tools: Hammer,
+  "Hardware Material": Boxes,
+  "Electrical Supplies": Zap,
+  "Safety Items": ShieldCheck,
+  "Welding & Cutting Consumables": Flame,
+  "Pipes & Fittings": Settings,
+  "Lifting Tools": Gauge,
+  "Hand Tools": Wrench,
+  Paints: PaintBucket,
 };
 
-const processSteps = [
-  { number: "01", title: "Enquiry", text: "We listen to your requirements and scope the project together." },
-  {
-    number: "02",
-    title: "Estimate & Planning",
-    text: "Accurate costing and a clear plan for materials, labour and timeline.",
-  },
-  { number: "03", title: "Execution", text: "Skilled teams deliver the work to spec, on schedule and to code." },
-  {
-    number: "04",
-    title: "Handover & Support",
-    text: "Quality checks, documentation and ongoing support after handover.",
-  },
-];
-
-function ServiceImage({ image, icon: Icon }: { image: string; icon: LucideIcon }) {
+function ServiceImage({ image, title }: { image: string; title: string }) {
   const [hasError, setHasError] = useState(false);
 
   if (hasError) {
     return (
-      <div className="relative rounded overflow-hidden aspect-[4/3] bg-graphite flex items-center justify-center">
-        <CornerBrackets />
-        <Icon className="text-white/30" size={64} strokeWidth={1.5} />
+      <div className="aspect-[16/10] bg-graphite flex items-center justify-center p-4">
+        <span className="font-display uppercase text-white text-center text-sm tracking-wide">{title}</span>
       </div>
     );
   }
 
   return (
-    <div className="relative rounded overflow-hidden aspect-[4/3]">
-      <CornerBrackets />
-      <img src={image} alt="" onError={() => setHasError(true)} className="w-full h-full object-cover" />
+    <div className="aspect-[16/10] overflow-hidden">
+      <img
+        src={image}
+        alt={title}
+        onError={() => setHasError(true)}
+        className="w-full h-full object-cover"
+      />
     </div>
   );
 }
@@ -68,79 +48,81 @@ export default function Services() {
     <>
       <PageHero
         eyebrow="Services"
-        title="What We Do"
-        subtitle="Contracting, trading and maintenance delivered to the highest standards of quality."
+        title="Our Services"
+        subtitle="Contracting, trading and maintenance, backed by a full inventory of hardware and materials."
         image="/images/services_page_hero_section.png"
       />
 
       <Section bg="white" pattern>
         <Reveal>
-          <SectionHeading eyebrow="Our Approach" title="Committed To Quality And Craftsmanship" align="center" />
+          <SectionHeading eyebrow="What We Do" title="One Partner For Every Requirement" align="center" />
           <p className="text-steel text-center max-w-2xl mx-auto leading-relaxed">
-            Our success is built on an unwavering commitment to quality, continuous investment in technology and
-            modern methods, and the old-world values and craftsmanship that guide everything we build.
+            We provide leading contracting and trading services for whatever you may need. We pride ourselves on
+            top-quality service and customer satisfaction. Our clients span a wide range of industries, so we bring
+            experience across a diverse set of projects, with complete flexibility on every job.
           </p>
         </Reveal>
       </Section>
 
-      {services.map((service, index) => {
-        const isImageFirst = index % 2 === 0;
-        const bg = index % 2 === 0 ? "white" : "cloud";
-        const Icon = serviceIcons[service.icon];
-        const numberLabel = String(index + 1).padStart(2, "0");
-
-        const imageBlock = <ServiceImage key="image" image={service.image} icon={Icon} />;
-        const textBlock = (
-          <div key="text">
-            <p className="text-red uppercase text-sm font-semibold tracking-[0.08em] mb-3">{numberLabel}</p>
-            <h3 className="text-ink mb-4">{service.title}</h3>
-            <p className="text-steel leading-relaxed mb-6">{service.blurb}</p>
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-3">
-              {service.points.map((point) => (
-                <li key={point} className="flex items-center gap-2 text-sm text-graphite">
-                  <Check className="text-red flex-shrink-0" size={16} strokeWidth={3} />
-                  {point}
-                </li>
-              ))}
-            </ul>
-          </div>
-        );
-
-        return (
-          <Section key={service.title} bg={bg}>
-            <Reveal>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                {isImageFirst ? (
-                  <>
-                    {imageBlock}
-                    {textBlock}
-                  </>
-                ) : (
-                  <>
-                    {textBlock}
-                    {imageBlock}
-                  </>
-                )}
-              </div>
-            </Reveal>
-          </Section>
-        );
-      })}
-
       <Section bg="cloud">
         <Reveal>
-          <SectionHeading eyebrow="Also Offering" title="Additional Capabilities" align="center" />
+          <SectionHeading eyebrow="Core Services" title="Contracting, Maintenance & Trading" align="center" />
         </Reveal>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {categories.map((category, i) => {
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {coreServices.map((service, i) => (
+            <Reveal key={service.title} delay={i * 120}>
+              <div className="h-full bg-white border border-mist rounded overflow-hidden">
+                <ServiceImage image={service.image} title={service.title} />
+                <div className="h-[3px] bg-red" />
+                <div className="p-8">
+                  <h3 className="text-ink mb-4">{service.title}</h3>
+                  <p className="text-steel text-sm leading-relaxed mb-6">{service.desc}</p>
+                  {service.disciplines.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {service.disciplines.map((discipline) => (
+                        <span
+                          key={discipline}
+                          className="inline-flex items-center gap-2 border border-mist bg-cloud rounded-full px-3 py-1.5 text-xs font-semibold text-graphite"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-red flex-shrink-0" />
+                          {discipline}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      <Section bg="white" pattern patternSide="left">
+        <Reveal>
+          <SectionHeading eyebrow="Trading & Supply" title="Hardware & Materials We Supply" align="center" />
+          <p className="text-steel text-center max-w-2xl mx-auto leading-relaxed mb-12">
+            As a trading partner we supply a comprehensive range of hardware, electrical, safety, welding and
+            maintenance materials.
+          </p>
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {productCategories.map((category, i) => {
             const Icon = categoryIcons[category.title];
             return (
               <Reveal key={category.title} delay={i * 90}>
-                <div className="group relative h-full bg-white border border-mist rounded p-6 transition-all hover:shadow-lg hover:border-2 hover:border-red hover:-translate-y-1">
-                  <CornerBrackets hoverOnly size={20} />
-                  <Icon className="text-red mb-4" size={24} strokeWidth={2} />
-                  <h3 className="text-ink text-lg mb-2">{category.title}</h3>
-                  <p className="text-steel text-sm leading-relaxed">{category.blurb}</p>
+                <div className="h-full bg-white border border-mist rounded p-6 transition-all hover:shadow-lg hover:border-graphite">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Icon className="text-red flex-shrink-0" size={22} strokeWidth={2} />
+                    <h3 className="text-ink text-lg">{category.title}</h3>
+                  </div>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
+                    {category.items.map((item) => (
+                      <li key={item} className="flex items-start gap-2 text-xs text-steel leading-snug">
+                        <span className="w-1 h-1 rounded-full bg-red mt-1.5 flex-shrink-0" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </Reveal>
             );
@@ -148,28 +130,30 @@ export default function Services() {
         </div>
       </Section>
 
-      <Section bg="white" pattern patternSide="left">
+      <Section bg="cloud">
         <Reveal>
-          <SectionHeading eyebrow="Our Process" title="From Enquiry To Handover" align="center" />
+          <p className="font-display text-2xl md:text-3xl text-steel text-center max-w-3xl mx-auto leading-snug">
+            Jie Yves Contracting & Trading exhibits the financial and technical strength to compete in challenging
+            market conditions with only the highest standards of quality.
+          </p>
         </Reveal>
-        <div className="grid grid-cols-1 md:grid-cols-4 md:divide-x md:divide-mist">
-          {processSteps.map((step, i) => (
-            <Reveal key={step.number} delay={i * 90} className="px-6 first:pl-0 last:pr-0 text-center md:text-left mb-8 md:mb-0">
-              <div className="font-display text-4xl font-semibold text-red mb-3">{step.number}</div>
-              <h3 className="text-ink text-lg mb-2">{step.title}</h3>
-              <p className="text-steel text-sm leading-relaxed">{step.text}</p>
-            </Reveal>
-          ))}
-        </div>
       </Section>
 
       <Section bg="graphite">
         <Reveal>
           <div className="text-center max-w-2xl mx-auto">
-            <h2 className="mb-8">Have a project in mind?</h2>
-            <Button href="/contact" variant="primary">
-              Get in Touch
-            </Button>
+            <h2 className="mb-8">Need a supplier or a contractor?</h2>
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              <Button href="/contact" variant="primary">
+                Contact Us
+              </Button>
+              <a
+                href={telHref(site.contact.phones[0])}
+                className="font-display text-lg font-semibold text-white hover:text-red transition-colors"
+              >
+                {site.contact.phones[0]}
+              </a>
+            </div>
           </div>
         </Reveal>
       </Section>

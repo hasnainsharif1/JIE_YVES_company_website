@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
 import { CornerBrackets } from "./Bracket";
 import type { Project } from "../data/projects";
 
-function ProjectImage({ image, title }: { image: string; title: string }) {
+const SLIDE_INTERVAL = 3500;
+
+function ProjectSlide({ image, title, isActive }: { image: string; title: string; isActive: boolean }) {
   const [hasError, setHasError] = useState(false);
 
   if (hasError) {
     return (
-      <div className="w-full h-full bg-graphite flex items-center justify-center p-4">
+      <div
+        className={`absolute inset-0 bg-graphite flex items-center justify-center p-4 transition-opacity duration-700 ${
+          isActive ? "opacity-100" : "opacity-0"
+        }`}
+      >
         <span className="font-display uppercase text-white text-center text-sm tracking-wide">{title}</span>
       </div>
     );
@@ -19,8 +25,37 @@ function ProjectImage({ image, title }: { image: string; title: string }) {
       src={image}
       alt={title}
       onError={() => setHasError(true)}
-      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 group-hover:scale-105 ${
+        isActive ? "opacity-100" : "opacity-0"
+      }`}
     />
+  );
+}
+
+function ProjectImageSlider({ images, title }: { images: string[]; title: string }) {
+  const [active, setActive] = useState(0);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    setPrefersReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion || images.length <= 1) return;
+
+    const timer = setInterval(() => {
+      setActive((prev) => (prev + 1) % images.length);
+    }, SLIDE_INTERVAL);
+
+    return () => clearInterval(timer);
+  }, [images.length, prefersReducedMotion]);
+
+  return (
+    <>
+      {images.map((image, i) => (
+        <ProjectSlide key={image} image={image} title={title} isActive={i === active} />
+      ))}
+    </>
   );
 }
 
@@ -29,8 +64,7 @@ export default function ProjectCard({ project }: { project: Project }) {
     <div className="group relative bg-white border border-mist rounded overflow-hidden transition-all hover:shadow-lg hover:border-2 hover:border-red hover:-translate-y-1">
       <CornerBrackets hoverOnly />
       <div className="relative aspect-[4/3] overflow-hidden">
-        <ProjectImage image={project.image} title={project.title} />
-        <div className="absolute inset-0 bg-graphite/50 group-hover:bg-graphite/20 transition-colors duration-300 pointer-events-none" />
+        <ProjectImageSlider images={project.images} title={project.title} />
         <span className="absolute top-3 left-3 bg-red text-white uppercase text-xs font-semibold tracking-[0.08em] px-3 py-1 rounded">
           {project.category}
         </span>
