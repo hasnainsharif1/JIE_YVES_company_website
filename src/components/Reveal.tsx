@@ -7,7 +7,7 @@ interface RevealProps {
   duration?: number;
 }
 
-export default function Reveal({ children, className = "", delay = 0, duration = 700 }: RevealProps) {
+export default function Reveal({ children, className = "", delay = 0, duration = 500 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);

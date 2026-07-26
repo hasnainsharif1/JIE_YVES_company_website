@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Check } from "lucide-react";
 import Container from "../components/Container";
@@ -18,6 +19,29 @@ import { categories } from "../data/categories";
 import { clients } from "../data/clients";
 import { projects } from "../data/projects";
 import { chairman, director, type Leader } from "../data/leadership";
+
+function ServiceImage({ image, title }: { image: string; title: string }) {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError) {
+    return (
+      <div className="aspect-[16/10] bg-graphite flex items-center justify-center p-4">
+        <span className="font-display uppercase text-white text-center text-sm tracking-wide">{title}</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="aspect-[16/10] overflow-hidden">
+      <img
+        src={image}
+        alt={title}
+        onError={() => setHasError(true)}
+        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+    </div>
+  );
+}
 
 function LeaderCard({ leader }: { leader: Leader }) {
   return (
@@ -127,22 +151,27 @@ export default function Home() {
             <Reveal key={service.title} delay={i * 120}>
               <Link
                 to="/services"
-                className="group relative block h-full bg-white border border-mist rounded p-8 pt-10 transition-all hover:shadow-lg hover:border-2 hover:border-red hover:-translate-y-1"
+                className="group relative flex flex-col h-full bg-white border border-mist rounded overflow-hidden transition-all hover:shadow-lg hover:border-2 hover:border-red hover:-translate-y-1"
               >
                 <CornerBrackets hoverOnly />
-                <span className="absolute top-0 left-0 right-0 h-[3px] bg-red rounded-t" />
-                <h3 className="text-ink mb-3">{service.title}</h3>
-                <p className="text-steel text-sm leading-relaxed mb-5">{service.desc}</p>
-                {service.disciplines.length > 0 && (
-                  <ul className="flex flex-col gap-2">
-                    {service.disciplines.map((discipline) => (
-                      <li key={discipline} className="flex items-center gap-2 text-sm text-graphite">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red flex-shrink-0" />
-                        {discipline}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                <ServiceImage image={service.image} title={service.title} />
+                <span className="h-[3px] bg-red" />
+                <div className="p-8">
+                  <h3 className="text-ink mb-3">{service.title}</h3>
+                  <p className="text-steel text-sm leading-relaxed mb-5">{service.desc}</p>
+                  {service.disciplines.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {service.disciplines.map((discipline) => (
+                        <span
+                          key={discipline}
+                          className="inline-flex items-center border border-mist bg-cloud rounded-md px-3 py-1.5 text-xs font-semibold text-graphite transition-colors hover:border-red hover:text-red"
+                        >
+                          {discipline}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </Link>
             </Reveal>
           ))}
